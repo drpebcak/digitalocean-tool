@@ -17,6 +17,8 @@ name: environment
 
 #!/bin/bash
 
+doctl --help || true
+
 COMPUTE_REGIONS="$(doctl compute region list --output json)"
 if [ -n "${COMPUTE_REGIONS}" ]; then
     echo "Your DigitalOcean compute regions are: ${COMPUTE_REGIONS}"
