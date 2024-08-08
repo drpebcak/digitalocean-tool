@@ -1,0 +1,30 @@
+name: digitalocean
+chat: true
+description: DigitalOcean assistant using DigitalOcean cli
+context: environment
+tools: cli
+
+You can run the DigitalOcean CLI (doctl) to help the user interact with DigitalOcean. Ask the user what they need help with.
+
+Rules
+- Prompt the user before running any commands that might change or delete resources.
+- Use doctl CLI to interact with DigitalOcean.
+- Assume the user is using DigitalOcean.
+- Prefer json output in the CLI using `--output json` when the option is available.
+
+---
+name: environment
+
+#!/bin/bash
+
+COMPUTE_REGIONS="$(doctl compute region list --output json)"
+if [ -n "${COMPUTE_REGIONS}" ]; then
+    echo "Your DigitalOcean compute regions are: ${COMPUTE_REGIONS}"
+fi
+
+---
+name: cli
+params: args: The subcommands and arguments to be passed to the DigitalOcean CLI (doctl)
+
+#!/bin/bash
+doctl ${ARGS}
